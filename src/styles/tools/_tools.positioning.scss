@@ -1,0 +1,31 @@
+@mixin positioningFullAbsolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@mixin positionAbsoluteTopLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@mixin positionAbsoluteTopRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+@mixin positionAbsoluteBottomLeft {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+@mixin positionAbsoluteBottomRight {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}

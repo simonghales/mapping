@@ -1,0 +1,110 @@
+
+@import '../../styles/tools/tools.positioning';
+@import '../../styles/elements/elements.anchors';
+@import '../../styles/elements/elements.headings';
+@import '../../styles/elements/elements.image';
+
+@mixin TrackUiVisibleOnlyOnHover {
+  visibility: hidden;
+
+  .Track:hover & {
+    visibility: visible;
+  }
+
+}
+
+$Track--standardPadding: 15px;
+
+.Track {
+  background-color: #d0d0d0;
+  border: 2px solid #ffffff;
+  position: relative;
+}
+
+  .image {
+
+    img {
+      @include imageMaxSize;
+      @include imageFullSize;
+    }
+
+  }
+
+  .ui {
+    @include positioningFullAbsolute;
+  }
+
+    .ui__top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+
+      .ui__top__left {
+        @include positionAbsoluteTopLeft;
+        padding: $Track--standardPadding 0 0 $Track--standardPadding;
+      }
+
+        .chartPosition {
+          @include trackChartPositionHeading;
+        }
+
+      .ui__top__right {
+        @include positionAbsoluteTopRight;
+        padding: $Track--standardPadding $Track--standardPadding 0 0;
+      }
+
+        .starIndicator {
+          @include TrackUiVisibleOnlyOnHover;
+        }
+
+    .ui__bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
+      .ui__bottom__left {
+        @include positionAbsoluteBottomLeft;
+        padding: 0 $Track--standardPadding$Track--standardPadding$Track--standardPadding;
+      }
+
+        .trackTitle {
+          @include trackTrackHeading;
+
+          a {
+            @include anchorUnderlineOnHover;
+          }
+
+        }
+
+        .artistName {
+          @include trackArtistHeading;
+          margin-top: 6px;
+
+          a {
+            @include anchorUnderlineOnHover;
+          }
+
+        }
+
+      .ui__bottom__right {
+        @include positionAbsoluteBottomRight;
+        padding: 0 $Track--standardPadding $Track--standardPadding 0;
+      }
+
+        .optionsIndicator {
+          @include TrackUiVisibleOnlyOnHover;
+        }
+
+    .ui__centre {}
+
+      .playIndicator {
+        @include TrackUiVisibleOnlyOnHover;
+        @include positioningFullAbsolute;
+        width: 60px;
+        height: 60px;
+        margin: auto;
+      }

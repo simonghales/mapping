@@ -1,0 +1,22 @@
+
+@import '../../styles/tools/tools.clearfix';
+
+.TracksList {
+  @extend %clearfix;
+}
+
+.Track {
+
+  $default-size: 232px;
+
+  float: left;
+  width: $default-size;
+  height: $default-size;
+  margin: 1px;
+
+  &.Track--jumboSized {
+    width: $default-size * 2;
+    height: $default-size * 2;
+  }
+
+}
