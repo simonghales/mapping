@@ -1,0 +1,198 @@
+
+@import './tools.mixins';
+
+$spritesheet-wonder: 'assets/spritesheets/spritesheet_wonder.png';
+$spritesheet-wonder-2x: 'assets/spritesheets/spritesheet_wonder@2x.png';
+$spritesheet-wonder-height: 222px;
+$spritesheet-wonder-width: 1004px;
+
+@mixin spritesheet() {
+  background-repeat: no-repeat;
+  background-image: url($spritesheet-wonder);
+  @include image-2x($spritesheet-wonder-2x, $spritesheet-wonder-width, $spritesheet-wonder-height);
+}
+
+@mixin sprite__track__star {
+  @include spritesheet;
+  background-position: -160px 0px;
+  width: 35px;
+  height: 35px;
+
+  &:hover {
+    background-position: -160px -55px;
+  }
+
+}
+
+@mixin sprite__track__play {
+  @include spritesheet;
+  background-position: 0px 0px;
+  width: 60px;
+  height: 60px;
+
+  &:hover {
+    background-position: 0px -80px;
+  }
+
+}
+
+@mixin sprite__track__pause {
+  @include spritesheet;
+  background-position: -80px 0px;
+  width: 60px;
+  height: 60px;
+
+  &:hover {
+    background-position: -80px -80px;
+  }
+
+}
+
+@mixin sprite__track__options {
+  @include spritesheet;
+  background-position: -270px 0px;
+  width: 5px;
+  height: 19px;
+
+  &:hover {
+    background-position: -270px -39px;
+  }
+
+}
+
+  @mixin sprite__track__options--hover {
+    background-position: -270px -39px;
+  }
+
+@mixin sprite__header__nav {
+  @include spritesheet;
+  background-position: -691px 0;
+  width: 25px;
+  height: 17px;
+}
+
+@mixin sprite__header__logo {
+  @include spritesheet;
+  background-position: -743px 0;
+  width: 108px;
+  height: 22px;
+}
+
+@mixin sprite__header__socialTwitter {
+  @include spritesheet;
+  background-position: -573px -117px;
+  width: 22px;
+  height: 24px;
+}
+
+  @mixin sprite__header__socialTwitter--hover {
+    @include spritesheet;
+    background-position: -573px -183px;
+    width: 22px;
+    height: 24px;
+  }
+
+@mixin sprite__header__socialSoundcloud {
+  @include spritesheet;
+  background-position: -632px -117px;
+  width: 30px;
+  height: 24px;
+}
+
+  @mixin sprite__header__socialSoundcloud--hover {
+    @include spritesheet;
+    background-position: -632px -183px;
+    width: 30px;
+    height: 24px;
+  }
+
+@mixin sprite__player__star {
+  @include spritesheet;
+  background-position: -292px 0;
+  height: 44px;
+  width: 30px;
+}
+
+  @mixin sprite__player__star--hover {
+    @include spritesheet;
+    background-position: -292px -60px;
+    height: 44px;
+    width: 30px;
+  }
+
+  @mixin sprite__player__star--disabled {
+    @include spritesheet;
+    background-position: -292px 0;
+    height: 44px;
+    width: 30px;
+  }
+
+@mixin sprite__player__share {
+  @include spritesheet;
+  background-position: -343px 0;
+  height: 44px;
+  width: 30px;
+}
+
+  @mixin sprite__player__share--hover {
+    @include spritesheet;
+    background-position: -343px -60px;
+    height: 44px;
+    width: 30px;
+  }
+
+  @mixin sprite__player__share--disabled {
+    @include spritesheet;
+    background-position: -343px -120px;
+    height: 44px;
+    width: 30px;
+  }
+
+@mixin sprite__player__play {
+  @include spritesheet;
+  background-position: -501px 0;
+  height: 44px;
+  width: 44px;
+}
+
+  @mixin sprite__player__play--hover {
+    @include spritesheet;
+    background-position: -501px -60px;
+    height: 44px;
+    width: 44px;
+  }
+
+@mixin sprite__player__pause {
+  @include spritesheet;
+  background-position: -392px 0;
+  height: 44px;
+  width: 44px;
+}
+
+  @mixin sprite__player__pause--hover {
+    @include spritesheet;
+    background-position: -392px -60px;
+    height: 44px;
+    width: 44px;
+  }
+
+@mixin sprite__player__skip {
+  @include spritesheet;
+  background-position: -458px 0;
+  height: 44px;
+  width: 30px;
+}
+
+  @mixin sprite__player__skip--hover {
+    @include spritesheet;
+    background-position: -458px -60px;
+    height: 44px;
+    width: 30px;
+  }
+  
+  @mixin sprite__player__skip--disabled {
+    @include spritesheet;
+    background-position: -458px -120px;
+    height: 44px;
+    width: 30px;
+  }

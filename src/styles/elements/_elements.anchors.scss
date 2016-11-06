@@ -1,6 +1,12 @@
 a {
   color: inherit;
+  cursor: pointer;
   text-decoration: none;
+
+  &:focus {
+    outline: none;
+  }
+
 }
 
 @mixin anchorUnderlineOnHover {

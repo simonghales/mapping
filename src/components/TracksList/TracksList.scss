@@ -3,11 +3,12 @@
 
 .TracksList {
   @extend %clearfix;
+  margin: 0 1px;
 }
 
 .Track {
 
-  $default-size: 232px;
+  $default-size: 233px;
 
   float: left;
   width: $default-size;
@@ -15,8 +16,8 @@
   margin: 1px;
 
   &.Track--jumboSized {
-    width: $default-size * 2;
-    height: $default-size * 2;
+    width: ($default-size * 2) + 6;
+    height: ($default-size * 2) + 6;
   }
 
 }

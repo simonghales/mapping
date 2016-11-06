@@ -1,0 +1,92 @@
+
+@import '../../styles/tools/tools.clearfix';
+@import '../../styles/tools/tools.sprites';
+
+$header____height: 78px;
+$player-progress____height: 6px;
+$site__header__nav____height: $header____height - $player-progress____height;
+
+.SiteHeader {
+  @extend %clearfix;
+}
+
+  .socialLink,
+  .nav,
+  .logo {
+    float: left;
+  }
+
+  .nav {
+    cursor: pointer;
+    height: $site__header__nav____height;
+    width: $site__header__nav____height;
+
+    &:hover {
+
+      .icon {
+        background-position: -691px -60px;
+      }
+
+    }
+
+    .icon {
+      @include sprite__header__nav;
+      margin: 30px auto 0;
+    }
+
+  }
+
+  .logo {
+    height: $site__header__nav____height;
+    margin-right: 18px;
+
+    > a {
+      display: block;
+      height: 100%;
+      padding-top: 24px;
+    }
+
+    .icon {
+      @include sprite__header__logo;
+    }
+
+  }
+
+  .socialLink {
+    height: $site__header__nav____height;
+
+    > a {
+      display: block;
+      height: 100%;
+      padding: 25px 13px 0;
+    }
+
+    .icon {
+    }
+
+    &.socialLink--twitter {
+
+      .icon {
+        @include sprite__header__socialTwitter;
+      }
+
+      &:hover .icon {
+        @include sprite__header__socialTwitter--hover;
+      }
+
+    }
+
+    &.socialLink--soundcloud {
+
+      .icon {
+        @include sprite__header__socialSoundcloud;
+      }
+
+      &:hover .icon {
+        @include sprite__header__socialSoundcloud--hover;
+      }
+
+    }
+
+  }
+

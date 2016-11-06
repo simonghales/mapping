@@ -1,0 +1,174 @@
+@import '../../styles/tools/tools.clearfix';
+@import '../../styles/tools/tools.sprites';
+
+.Player {
+  @extend %clearfix;
+}
+
+.info,
+.controls {
+  float: left;
+}
+
+.info {
+  margin: 16px 25px 0 0;
+
+  .Player.state--empty & {
+    visibility: hidden;
+  }
+
+}
+
+.infoText {
+  color: #222;
+  font-size: 14px;
+  font-weight: 600;
+  padding-bottom: 2px;
+
+  .title {}
+
+  .divider {
+    display: inline-block;
+    width: 16px;
+    height: 2px;
+    background-color: #0040fa;
+    position: relative;
+    top: -4px;
+    margin: 0 8px;
+  }
+
+  .artist {
+    color: #0040fa;
+  }
+
+  a {
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+  }
+
+}
+
+.controls {
+  @extend %clearfix;
+}
+
+
+.btn {
+
+  cursor: pointer;
+  height: 44px;
+  width: 30px;
+  float: left;
+  margin-right: 20px;
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  .btnIcon {
+    width: 100%;
+    height: 100%;
+  }
+
+}
+
+%disabled {
+  cursor: default;
+}
+
+@mixin disabled-from-root {
+
+  .Player.state--disabled & {
+    @extend %disabled;
+    @content;
+  }
+
+}
+
+@mixin playing-from-root {
+
+  .Player.state--playing & {
+    @content;
+  }
+
+}
+
+.btn--star {
+  @include disabled-from-root();
+
+  .btnIcon {
+    @include sprite__player__star;
+
+    &:hover {
+      @include sprite__player__star--hover;
+    }
+
+    @include disabled-from-root {
+      @include sprite__player__star--disabled;
+    }
+
+  }
+
+}
+
+.btn--share {
+  @include disabled-from-root();
+
+  .btnIcon {
+    @include sprite__player__share;
+
+    &:hover {
+      @include sprite__player__share--hover;
+    }
+
+    @include disabled-from-root {
+      @include sprite__player__share--disabled;
+    }
+
+  }
+
+}
+
+.btn--toggle {
+  width: 44px;
+
+  .btnIcon {
+    @include sprite__player__play;
+
+    &:hover {
+      @include sprite__player__play--hover;
+    }
+
+    @include playing-from-root {
+      @include sprite__player__pause;
+
+      &:hover {
+        @include sprite__player__pause--hover;
+      }
+
+    }
+
+  }
+
+}
+
+.btn--skip {
+
+  .btnIcon {
+    @include sprite__player__skip;
+
+    &:hover {
+      @include sprite__player__skip--hover;
+    }
+
+    @include disabled-from-root {
+      @include sprite__player__skip--disabled;
+    }
+
+  }
+
+}
+

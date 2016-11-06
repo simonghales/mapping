@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TracksList } from 'components';
+import { SiteHeader, SiteFooter, TracksList } from 'components';
 import Helmet from 'react-helmet';
 
 export default class Home extends Component {
@@ -8,10 +8,14 @@ export default class Home extends Component {
     return (
       <div className={styles.home}>
         <Helmet title="Home"/>
-        <div>
-          <section>
-            <TracksList />
-          </section>
+        <div className={styles['main__header-wrapper']}>
+          <SiteHeader />
+        </div>
+        <div className={styles['main__body-wrapper']}>
+          <TracksList />
+        </div>
+        <div className={styles['main__footer-wrapper']}>
+          <SiteFooter />
         </div>
       </div>
     );

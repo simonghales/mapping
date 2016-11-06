@@ -1,7 +1,11 @@
 @mixin fontPlain {
-
+  font-family: Poppins, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 @mixin fontHeading {
   font-family: Poppins, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+  @include fontPlain;
 }

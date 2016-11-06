@@ -5,9 +5,9 @@ export default class <%= pascalEntityName %> extends Component {
   render() {
     const styles = require('./<%= pascalEntityName %>.scss');
     return (
-    <div className={styles.<%= pascalEntityName %>}>
-      <%= pascalEntityName %>
-    </div>
+      <div className={styles['<%= pascalEntityName %>']}>
+        <%= pascalEntityName %>
+      </div>
     );
   }
 }

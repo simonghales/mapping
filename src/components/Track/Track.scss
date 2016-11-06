@@ -1,14 +1,37 @@
 
+@import '../../styles/settings/settings.color';
 @import '../../styles/tools/tools.positioning';
+@import '../../styles/tools/tools.sprites';
 @import '../../styles/elements/elements.anchors';
 @import '../../styles/elements/elements.headings';
 @import '../../styles/elements/elements.image';
+@import '../../styles/objects/objects.track';
 
 @mixin TrackUiVisibleOnlyOnHover {
-  visibility: hidden;
+  @include transition(opacity 250ms ease);
+  opacity: 0;
 
+  &:hover,
   .Track:hover & {
-    visibility: visible;
+    opacity: 1;
+  }
+
+}
+
+@mixin TrackSelected {
+
+  &.Track--selected,
+  .Track--selected & {
+    @content;
+  }
+
+}
+
+@mixin TrackPlaying {
+
+  &.Track--playing,
+  .Track--playing & {
+    @content;
   }
 
 }
@@ -18,7 +41,17 @@ $Track--standardPadding: 15px;
 .Track {
   background-color: #d0d0d0;
   border: 2px solid #ffffff;
+  cursor: pointer;
   position: relative;
+
+  &:hover {
+    border-color: $color-trackActive;
+  }
+
+  @include TrackSelected {
+    border-color: $color-trackActive;
+  }
+
 }
 
   .image {
@@ -35,10 +68,16 @@ $Track--standardPadding: 15px;
   }
 
     .ui__top {
+      @include trackTopShadow;
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
+
+      @include TrackSelected {
+        @include trackTopShadowHighlight;
+      }
+
     }
 
       .ui__top__left {
@@ -57,13 +96,20 @@ $Track--standardPadding: 15px;
 
         .starIndicator {
           @include TrackUiVisibleOnlyOnHover;
+          @include sprite__track__star;
         }
 
     .ui__bottom {
+      @include trackBottomShadow;
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
+
+      @include TrackSelected {
+        @include trackBottomShadowHighlight;
+      }
+
     }
 
       .ui__bottom__left {
@@ -95,16 +141,74 @@ $Track--standardPadding: 15px;
         padding: 0 $Track--standardPadding $Track--standardPadding 0;
       }
 
-        .optionsIndicator {
+        .options {
           @include TrackUiVisibleOnlyOnHover;
+          position: relative;
+
+          &:hover {
+
+            .options__indicator {
+              @include sprite__track__options--hover;
+            }
+
+            .options__list {
+              display: block;
+            }
+
+          }
+
         }
+
+          .options__indicator {
+            @include sprite__track__options;
+            position: relative;
+            z-index: 50 + 2;
+          }
+
+          .options__list {
+            @include border-radius(3px);
+            @include box-shadow(0, 0, 5px, rgba(0,0,0,0.3));
+            display: none;
+            background-color: #ffffff;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 150px;
+            z-index: 50;
+            margin-top: -24px;
+            margin-right: -6px;
+            padding: 15px;
+            color: #000000;
+            cursor: default;
+            font-size: 13px;
+          }
+
+            .options__list__option {
+              cursor: pointer;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+
+            .options__list__divider {
+              width: 20px;
+              height: 1px;
+              background-color: #dcdcdc;
+              margin: 14px 0;
+            }
+
 
     .ui__centre {}
 
       .playIndicator {
         @include TrackUiVisibleOnlyOnHover;
         @include positioningFullAbsolute;
-        width: 60px;
-        height: 60px;
+        @include sprite__track__play;
         margin: auto;
+
+        @include TrackPlaying {
+          @include sprite__track__pause;
+        }
+
       }
