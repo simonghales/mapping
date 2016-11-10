@@ -1,7 +1,8 @@
 
-@import '../../styles/settings/settings.color';
+@import '../../styles/tools/tools.mixins';
 @import '../../styles/tools/tools.positioning';
 @import '../../styles/tools/tools.sprites';
+@import '../../styles/settings/settings.color';
 @import '../../styles/elements/elements.anchors';
 @import '../../styles/elements/elements.headings';
 @import '../../styles/elements/elements.image';
@@ -114,10 +115,12 @@ $Track--standardPadding: 15px;
 
       .ui__bottom__left {
         @include positionAbsoluteBottomLeft;
+        right: 0;
         padding: 0 $Track--standardPadding$Track--standardPadding$Track--standardPadding;
       }
 
         .trackTitle {
+          @include text-truncate;
           @include trackTrackHeading;
 
           a {
@@ -127,6 +130,7 @@ $Track--standardPadding: 15px;
         }
 
         .artistName {
+          @include text-truncate;
           @include trackArtistHeading;
           margin-top: 6px;
 

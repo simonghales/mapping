@@ -1,2 +1,15 @@
 .SiteFooter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
 }
+
+  .list {
+
+    > li {
+      display: inline-block;
+      margin: 0 20px;
+    }
+
+  }

@@ -6,7 +6,7 @@ export default class Home extends Component {
   render() {
     const styles = require('./Home.scss');
     return (
-      <div className={styles.home}>
+      <div className={styles['main']}>
         <Helmet title="Home"/>
         <div className={styles['main__header-wrapper']}>
           <SiteHeader />

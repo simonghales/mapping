@@ -7,11 +7,11 @@ export default class SiteHeader extends Component {
     const styles = require('./SiteHeader.scss');
     return (
     <div className={styles['SiteHeader']}>
-      <div>
+      <div className={styles['scrubber-wrapper']}>
         <PlayerScrubber />
       </div>
-      <div>
-        <div>
+      <div className={styles['main']}>
+        <div className={styles['info-wrapper']}>
           <div className={styles['info']}>
             <div className={styles['nav']}>
               <div className={styles['icon']}></div>
@@ -33,7 +33,7 @@ export default class SiteHeader extends Component {
             </div>
           </div>
         </div>
-        <div>
+        <div className={styles['player-wrapper']}>
           <Player />
         </div>
       </div>
