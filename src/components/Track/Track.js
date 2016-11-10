@@ -3,6 +3,17 @@ import { getTrackPhotoUrl } from 'utils/track';
 
 export default class Track extends Component {
 
+  constructor(props) {
+    super(props);
+    this.handleSetCurrentTrack = this.handleSetCurrentTrack.bind(this);
+  }
+
+  handleSetCurrentTrack() {
+    const {setCurrentTrack, trackData} = this.props;
+    console.log('track data', trackData, this.props);
+    setCurrentTrack(trackData);
+  }
+
   render() {
     const styles = require('./Track.scss');
     const { className, trackData } = this.props;
@@ -26,7 +37,7 @@ export default class Track extends Component {
     if (chartPosition === 6) trackClassName.push(styles['Track--selected']); // todo - remove
     if (chartPosition === 6) trackClassName.push(styles['Track--playing']); // todo - remove
     return (
-      <div className={trackClassName.join(' ')}>
+      <div className={trackClassName.join(' ')} onClick={this.handleSetCurrentTrack}>
         <div className={styles['image']}>
           <img src={convertedPhotoUrl} alt="Track Image"/>
         </div>
@@ -78,5 +89,7 @@ export default class Track extends Component {
 
 Track.propTypes = {
   className: React.PropTypes.string.isRequired,
+  currentTrack: React.PropTypes.object.isRequired,
+  setCurrentTrack: React.PropTypes.func.isRequired,
   trackData: React.PropTypes.object.isRequired,
 };

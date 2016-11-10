@@ -1,6 +1,10 @@
 
 // import {List, Map, fromJS} from 'immutable'; // eslint-disable-line no-unused-vars
 
+import { prepTracks } from 'utils/track';
+
+const EXAMPLE_TRACKS = require('../../data/example/chart.json').chart;
+
 const INITIAL_PLAY = 'wonder/player/INITIAL_PLAY';
 const SET_CURRENT_TRACK = 'wonder/player/SET_CURRENT_TRACK';
 const SET_QUEUED_TRACKS = 'wonder/player/SET_QUEUED_TRACKS';
@@ -22,8 +26,8 @@ export function nextTrack() {
 export function setCurrentTrack(track) {
   return {
     type: SET_CURRENT_TRACK,
-    playload: {
-      track
+    payload: {
+      track,
     }
   };
 }
@@ -31,7 +35,7 @@ export function setCurrentTrack(track) {
 export function setQueuedTracks(tracks) {
   return {
     type: SET_QUEUED_TRACKS,
-    playload: {
+    payload: {
       tracks
     }
   };
@@ -44,9 +48,12 @@ export function togglePlaying() {
 }
 
 function handleInitialStart(state) {
-  console.log('handle initial start');
+  const {queuedTracks} = state;
+  if (!queuedTracks.length) return state;
+  const firstTrack = queuedTracks[0];
   return {
     ...state,
+    currentTrack: firstTrack,
     playing: true
   };
 }
@@ -57,6 +64,7 @@ function handleNextTrack(state) {
   if (!currentTrack) return state;
 
   const currentTrackIndex = currentTrack.index;
+
   let nextTrackIndex = 0;
 
   if (currentTrackIndex < (queuedTracks.length - 1)) {
@@ -68,16 +76,16 @@ function handleNextTrack(state) {
   return {
     ...state,
     currentTrack: nextSelectedTrack,
+    currentTrackIndex: nextTrackIndex,
     playing: true
   };
 }
 
 function handleSetCurrentTrack(state, payload) {
-  console.log('set current track', payload);
   const {track} = payload;
   return {
     ...state,
-    currentTrack: track
+    currentTrack: track,
   };
 }
 
@@ -91,7 +99,6 @@ function handleSetQueuedTracks(state, payload) {
 }
 
 function handleTogglePlaying(state) {
-  console.log('toggle playing state', state);
   return {
     ...state,
     playing: !state.playing
@@ -108,7 +115,7 @@ const ACTION_HANDLERS = {
 
 const initialState = {
   currentTrack: null,
-  queuedTracks: [],
+  queuedTracks: prepTracks(EXAMPLE_TRACKS), // todo - change back to []
   playing: false,
 };
 
