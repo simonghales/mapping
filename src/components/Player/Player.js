@@ -2,15 +2,25 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {initialPlay, nextTrack, togglePlaying} from 'redux/modules/player';
+import {starTrack, unstarTrack} from 'redux/modules/starred';
+
+const classNames = require('classnames');
+const styles = require('./Player.scss');
 
 @connect(
-  state => ({player: state.player}),
-  dispatch => bindActionCreators({initialPlay, nextTrack, togglePlaying}, dispatch))
+  state => ({player: state.player, starred: state.starred}),
+  dispatch => bindActionCreators({initialPlay, nextTrack, starTrack, unstarTrack, togglePlaying}, dispatch))
 export default class Player extends Component {
 
   constructor(props) {
     super(props);
     this.handleToggleClick = this.handleToggleClick.bind(this);
+    this.handleNextTrack = this.handleNextTrack.bind(this);
+    this.handleStarTrack = this.handleStarTrack.bind(this);
+    this.handleStarTrackClick = this.handleStarTrackClick.bind(this);
+    this.isStarred = this.isStarred.bind(this);
+    this.isTrackSelected = this.isTrackSelected.bind(this);
+    this.renderInfo = this.renderInfo.bind(this);
   }
 
   handleToggleClick() {
@@ -24,15 +34,109 @@ export default class Player extends Component {
     }
   }
 
-  render() {
-    const styles = require('./Player.scss'); // initialPlay
-    const {nextTrack, player} = this.props; // eslint-disable-line no-shadow
-    console.log('whats on my player?', player);
+  handleNextTrack() {
+    if (!this.isTrackSelected()) return;
+    const {nextTrack} = this.props; // eslint-disable-line no-shadow
+    nextTrack();
+  }
+
+  handleStarTrack() {
+    const {player, starTrack} = this.props; // eslint-disable-line no-shadow
+    const {currentTrack} = player;
+    starTrack(currentTrack);
+    console.log('starrr');
+  }
+
+  handleStarTrackClick() {
+    if (this.isStarred()) {
+      this.handleUnstarTrack();
+    } else {
+      this.handleStarTrack();
+    }
+  }
+
+  handleUnstarTrack() {
+    const {player, unstarTrack} = this.props; // eslint-disable-line no-shadow
+    const {currentTrack} = player;
+    unstarTrack(currentTrack);
+    console.log('unstarrr');
+  }
+
+  isStarred() {
+    const {player, starred} = this.props;
+    const {currentTrack} = player;
+    if (!this.isTrackSelected()) return false;
+    const {starredTracks} = starred;
+    const {
+      data: {
+        track: {
+          track_id: trackId
+        }
+      }
+    } = currentTrack;
+    console.log('am i starred?', (starredTracks[trackId] ? true : false));
+    return starredTracks[trackId] ? true : false;
+  }
+
+  isTrackSelected() {
+    const {player} = this.props;
+    const {currentTrack} = player;
+    return currentTrack ? true : false;
+  }
+
+  renderInfo() {
+    const {player} = this.props;
+    const {currentTrack} = player;
+
+    if (!currentTrack) return '';
+
+    const {
+      data: {
+        title,
+        artist: {
+          name: artistName,
+          url: artistUrl
+        },
+        track: {
+          url: trackUrl
+        }
+      }
+    } = currentTrack;
+
     return (
-      <div className={styles['Player']}>
-        <div className={styles['info']}></div>
+      <h3 className={styles['info__text']}>
+        <a className={styles['info__text__title']} href={trackUrl} target="_blank">{title}</a>
+        <span className={styles['info__text__divider']}></span>
+        <a className={styles['info__text__artist']} href={artistUrl} target="_blank">{artistName}</a>
+      </h3>
+    );
+  }
+
+  render() {
+    const {player} = this.props;
+    const {
+      playing: isPlaying
+    } = player;
+    const isStarred = this.isStarred();
+    console.log('is starred?', isStarred);
+    const trackIsSelected = this.isTrackSelected();
+    const rootClasses = classNames(
+      styles['Player'],
+      {
+        [styles['state--empty']]: !trackIsSelected,
+        [styles['state--playing']]: isPlaying,
+        [styles['state--starred']]: isStarred,
+        [styles['state--disabled']]: !trackIsSelected
+      }
+    );
+
+    return (
+      <div className={rootClasses}>
+        <div className={styles['info']}>
+          {this.renderInfo()}
+        </div>
         <div className={styles['controls']}>
-          <div className={[styles['btn'], styles['btn--star']].join(' ')}>
+          <div className={[styles['btn'], styles['btn--star']].join(' ')} onClick={this.handleStarTrackClick}>
             <div className={styles['btnIcon']}></div>
           </div>
           <div className={[styles['btn'], styles['btn--share']].join(' ')}>
@@ -41,7 +145,7 @@ export default class Player extends Component {
           <div className={[styles['btn'], styles['btn--toggle']].join(' ')} onClick={this.handleToggleClick}>
             <div className={styles['btnIcon']}></div>
           </div>
-          <div className={[styles['btn'], styles['btn--skip']].join(' ')} onClick={nextTrack}>
+          <div className={[styles['btn'], styles['btn--skip']].join(' ')} onClick={this.handleNextTrack}>
             <div className={styles['btnIcon']}></div>
           </div>
         </div>
@@ -51,8 +155,11 @@ export default class Player extends Component {
 }
 
 Player.propTypes = {
-  initialPlay: React.PropTypes.func.isRequired,
-  nextTrack: React.PropTypes.func.isRequired,
-  player: React.PropTypes.object.isRequired,
-  togglePlaying: React.PropTypes.func.isRequired,
+  initialPlay: React.PropTypes.func,
+  nextTrack: React.PropTypes.func,
+  player: React.PropTypes.object,
+  starred: React.PropTypes.object,
+  starTrack: React.PropTypes.func,
+  unstarTrack: React.PropTypes.func,
+  togglePlaying: React.PropTypes.func,
 };

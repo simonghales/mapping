@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { getTrackPhotoUrl } from 'utils/track';
 
+const classNames = require('classnames');
+
 export default class Track extends Component {
 
   constructor(props) {
@@ -10,13 +12,16 @@ export default class Track extends Component {
 
   handleSetCurrentTrack() {
     const {setCurrentTrack, trackData} = this.props;
-    console.log('track data', trackData, this.props);
     setCurrentTrack(trackData);
   }
 
   render() {
     const styles = require('./Track.scss');
-    const { className, trackData } = this.props;
+    const {
+      className,
+      isPlaying,
+      isSelected,
+      trackData} = this.props;
     const {
       index: trackIndex,
       data: {
@@ -33,11 +38,16 @@ export default class Track extends Component {
     } = trackData;
     const chartPosition = trackIndex + 1;
     const convertedPhotoUrl = getTrackPhotoUrl(photoUrl, (chartPosition === 0));
-    const trackClassName = [className, styles['Track']];
-    if (chartPosition === 6) trackClassName.push(styles['Track--selected']); // todo - remove
-    if (chartPosition === 6) trackClassName.push(styles['Track--playing']); // todo - remove
+    const trackClassName = classNames(
+      className,
+      styles['Track'],
+      {
+        [styles['Track--selected']]: isSelected,
+        [styles['Track--playing']]: isPlaying,
+      }
+    );
     return (
-      <div className={trackClassName.join(' ')} onClick={this.handleSetCurrentTrack}>
+      <div className={trackClassName} onClick={this.handleSetCurrentTrack}>
         <div className={styles['image']}>
           <img src={convertedPhotoUrl} alt="Track Image"/>
         </div>
@@ -89,7 +99,8 @@ export default class Track extends Component {
 
 Track.propTypes = {
   className: React.PropTypes.string.isRequired,
-  currentTrack: React.PropTypes.object.isRequired,
+  isPlaying: React.PropTypes.bool.isRequired,
+  isSelected: React.PropTypes.bool.isRequired,
   setCurrentTrack: React.PropTypes.func.isRequired,
   trackData: React.PropTypes.object.isRequired,
 };

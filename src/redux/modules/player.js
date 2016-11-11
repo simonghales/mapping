@@ -77,7 +77,7 @@ function handleNextTrack(state) {
     ...state,
     currentTrack: nextSelectedTrack,
     currentTrackIndex: nextTrackIndex,
-    playing: true
+    playing: true,
   };
 }
 
@@ -86,6 +86,7 @@ function handleSetCurrentTrack(state, payload) {
   return {
     ...state,
     currentTrack: track,
+    playing: true,
   };
 }
 
@@ -94,14 +95,14 @@ function handleSetQueuedTracks(state, payload) {
   const {tracks} = payload;
   return {
     ...state,
-    currentTrack: tracks
+    currentTrack: tracks,
   };
 }
 
 function handleTogglePlaying(state) {
   return {
     ...state,
-    playing: !state.playing
+    playing: !state.playing,
   };
 }
 
@@ -115,8 +116,8 @@ const ACTION_HANDLERS = {
 
 const initialState = {
   currentTrack: null,
-  queuedTracks: prepTracks(EXAMPLE_TRACKS), // todo - change back to []
   playing: false,
+  queuedTracks: prepTracks(EXAMPLE_TRACKS), // todo - change back to []
 };
 
 export default function reducer(state = initialState, action = {}) {

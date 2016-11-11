@@ -134,6 +134,20 @@ $spritesheet-wonder-width: 1004px;
     width: 30px;
   }
 
+  @mixin sprite__player__star--starred {
+    @include spritesheet;
+    background-position: -292px -120px;
+    height: 44px;
+    width: 30px;
+  }
+
+  @mixin sprite__player__star--starred--hover {
+    @include spritesheet;
+    background-position: -292px -180px;
+    height: 44px;
+    width: 30px;
+  }
+
 @mixin sprite__player__share {
   @include spritesheet;
   background-position: -343px 0;
