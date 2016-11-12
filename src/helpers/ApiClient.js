@@ -8,9 +8,11 @@ function formatUrl(path) {
   if (__SERVER__) {
     // Prepend host and port of the API server to the path.
     // return 'http://' + config.apiHost + ':' + config.apiPort + adjustedPath;
+    console.log('server request...');
     return config.apiHost + adjustedPath;
   }
   // Prepend `/api` to relative URL, to proxy to API server.
+  console.log('client request...');
   return '/api' + adjustedPath;
 }
 

@@ -106,7 +106,7 @@ module.exports = {
     new webpack.IgnorePlugin(/webpack-stats\.json$/),
     new webpack.DefinePlugin({
       __CLIENT__: true,
-      __SERVER__: true, // originally false
+      __SERVER__: false, // originally false
       __DEVELOPMENT__: true,
       __DEVTOOLS__: true  // <-------- DISABLE redux-devtools HERE
     }),

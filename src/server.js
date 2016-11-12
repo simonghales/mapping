@@ -21,13 +21,14 @@ import getRoutes from './routes';
 
 // const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort;
 const targetUrl = config.apiHost;
+const wpUrl = 'http://' + 'localhost' + ':' + config.apiPort;
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
 const proxy = httpProxy.createProxyServer({
   target: targetUrl,
   changeOrigin: true,
-  ws: true
+  ws: false // originally true
 });
 
 app.use(compression());
@@ -41,7 +42,7 @@ app.use('/api', (req, res) => {
 });
 
 app.use('/ws', (req, res) => {
-  proxy.web(req, res, {target: targetUrl + '/ws'});
+  proxy.web(req, res, {target: wpUrl + '/ws'});
 });
 
 server.on('upgrade', (req, socket, head) => {

@@ -21,7 +21,7 @@ const dest = document.getElementById('content');
 const store = createStore(_browserHistory, client, window.__data);
 const history = syncHistoryWithStore(_browserHistory, store);
 
-function initSocket() {
+function initSocket() { // eslint-disable-line no-unused-vars
   const socket = io('', {path: '/ws'});
   socket.on('news', (data) => {
     console.log(data);
@@ -34,7 +34,7 @@ function initSocket() {
   return socket;
 }
 
-global.socket = initSocket();
+// global.socket = initSocket(); // disabled
 
 const component = (
   <Router render={(props) =>
