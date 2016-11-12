@@ -5,11 +5,21 @@ import { prepTracks } from 'utils/track';
 
 const EXAMPLE_TRACKS = require('../../data/example/chart.json').chart;
 
+const FETCH_TRACKS = 'wonder/player/FETCH_TRACKS';
+const FETCH_TRACKS_FAILURE = 'wonder/player/FETCH_TRACKS_FAILURE';
+const FETCH_TRACKS_SUCCESS = 'wonder/player/FETCH_TRACKS_SUCCESS';
 const INITIAL_PLAY = 'wonder/player/INITIAL_PLAY';
 const SET_CURRENT_TRACK = 'wonder/player/SET_CURRENT_TRACK';
 const SET_QUEUED_TRACKS = 'wonder/player/SET_QUEUED_TRACKS';
 const NEXT_TRACK = 'wonder/player/NEXT_TRACK';
 const TOGGLE_PLAYING = 'wonder/player/TOGGLE_PLAYING';
+
+export function fetchTracks() {
+  return {
+    types: [FETCH_TRACKS, FETCH_TRACKS_SUCCESS, FETCH_TRACKS_FAILURE],
+    promise: (client) => client.get('/widget/load/param1/param2') // params not used, just shown as demonstration
+  };
+}
 
 export function initialPlay() {
   return {
@@ -44,6 +54,32 @@ export function setQueuedTracks(tracks) {
 export function togglePlaying() {
   return {
     type: TOGGLE_PLAYING
+  };
+}
+
+function handleFetchTracks(state) {
+  console.log('FETCH???');
+  return {
+    ...state,
+    isFetchingTracks: true,
+  };
+}
+
+function handleFetchTracksFailure(state) {
+  console.log('FAILED TO FETCH...');
+  return {
+    ...state,
+    isFetchingTracks: false,
+    isFetchingTracksFailure: true,
+  };
+}
+
+function handleFetchTracksSuccess(state) {
+  console.log('SUCCESSFULLY MANAGED TO FETCH...');
+  return {
+    ...state,
+    isFetchingTracks: false,
+    isFetchingTracksFailure: false,
   };
 }
 
@@ -107,6 +143,9 @@ function handleTogglePlaying(state) {
 }
 
 const ACTION_HANDLERS = {
+  [FETCH_TRACKS]: (state) => handleFetchTracks(state),
+  [FETCH_TRACKS_FAILURE]: (state) => handleFetchTracksFailure(state),
+  [FETCH_TRACKS_SUCCESS]: (state) => handleFetchTracksSuccess(state),
   [INITIAL_PLAY]: (state) => handleInitialStart(state),
   [SET_CURRENT_TRACK]: (state, action) => handleSetCurrentTrack(state, action.payload),
   [SET_QUEUED_TRACKS]: (state, action) => handleSetQueuedTracks(state, action.payload),
@@ -116,6 +155,8 @@ const ACTION_HANDLERS = {
 
 const initialState = {
   currentTrack: null,
+  isFetchingTracks: false,
+  isFetchingTracksFailure: false,
   playing: false,
   queuedTracks: prepTracks(EXAMPLE_TRACKS), // todo - change back to []
 };

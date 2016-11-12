@@ -28,6 +28,15 @@
 
 }
 
+@mixin TrackStarred {
+
+  &.Track--starred,
+  .Track--starred & {
+    @content;
+  }
+
+}
+
 @mixin TrackPlaying {
 
   &.Track--playing,
@@ -98,6 +107,16 @@ $Track--standardPadding: 15px;
         .starIndicator {
           @include TrackUiVisibleOnlyOnHover;
           @include sprite__track__star;
+
+          @include TrackStarred {
+            @include sprite__track__star--active;
+
+            &:hover {
+              @include sprite__track__star--active--hover;
+            }
+
+          }
+
         }
 
     .ui__bottom {

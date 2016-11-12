@@ -7,12 +7,49 @@ export default class Track extends Component {
 
   constructor(props) {
     super(props);
-    this.handleSetCurrentTrack = this.handleSetCurrentTrack.bind(this);
+    this.handleStarClick = this.handleStarClick.bind(this);
+    this.handleTrackClick = this.handleTrackClick.bind(this);
+    this.renderStarOption = this.renderStarOption.bind(this);
   }
 
-  handleSetCurrentTrack() {
-    const {setCurrentTrack, trackData} = this.props;
-    setCurrentTrack(trackData);
+  handleStarClick(event) {
+    const {
+      isStarred,
+      starTrack,
+      trackData,
+      unstarTrack,
+    } = this.props;
+    if (isStarred) {
+      unstarTrack(trackData);
+    } else {
+      starTrack(trackData);
+    }
+    event.stopPropagation();
+  }
+
+  handleTrackClick() {
+    const {
+      isSelected,
+      setCurrentTrack,
+      togglePlaying,
+      trackData
+    } = this.props;
+
+    if (!isSelected) {
+      setCurrentTrack(trackData);
+    } else {
+      togglePlaying();
+    }
+  }
+
+  renderStarOption() {
+    const {
+      isStarred
+    } = this.props;
+    if (isStarred) {
+      return ('Unstar Track');
+    }
+    return ('Star Track');
   }
 
   render() {
@@ -21,7 +58,9 @@ export default class Track extends Component {
       className,
       isPlaying,
       isSelected,
-      trackData} = this.props;
+      isStarred,
+      trackData
+    } = this.props;
     const {
       index: trackIndex,
       data: {
@@ -43,11 +82,12 @@ export default class Track extends Component {
       styles['Track'],
       {
         [styles['Track--selected']]: isSelected,
+        [styles['Track--starred']]: isStarred,
         [styles['Track--playing']]: isPlaying,
       }
     );
     return (
-      <div className={trackClassName} onClick={this.handleSetCurrentTrack}>
+      <div className={trackClassName} onClick={this.handleTrackClick}>
         <div className={styles['image']}>
           <img src={convertedPhotoUrl} alt="Track Image"/>
         </div>
@@ -57,7 +97,11 @@ export default class Track extends Component {
               <div className={styles['chartPosition']}>{chartPosition}</div>
             </div>
             <div className={styles['ui__top__right']}>
-              <div className={styles['starIndicator']}></div>
+              <div className={styles['starIndicator']}
+                   onClick={(event) => {
+                     this.handleStarClick(event);
+                   }}>
+              </div>
             </div>
           </div>
           <div className={styles['ui__bottom']}>
@@ -73,8 +117,11 @@ export default class Track extends Component {
               <div className={styles['options']}>
                 <div className={styles['options__indicator']}></div>
                 <ul className={styles['options__list']}>
-                  <li className={styles['options__list__option']}>
-                    Star Track
+                  <li className={styles['options__list__option']}
+                      onClick={(event) => {
+                        this.handleStarClick(event);
+                      }}>
+                    {this.renderStarOption()}
                   </li>
                   <li className={styles['options__list__divider']}></li>
                   <li className={styles['options__list__option']}>
@@ -101,6 +148,10 @@ Track.propTypes = {
   className: React.PropTypes.string.isRequired,
   isPlaying: React.PropTypes.bool.isRequired,
   isSelected: React.PropTypes.bool.isRequired,
+  isStarred: React.PropTypes.bool.isRequired,
   setCurrentTrack: React.PropTypes.func.isRequired,
+  starTrack: React.PropTypes.func.isRequired,
+  togglePlaying: React.PropTypes.func.isRequired,
+  unstarTrack: React.PropTypes.func.isRequired,
   trackData: React.PropTypes.object.isRequired,
 };

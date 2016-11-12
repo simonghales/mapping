@@ -24,6 +24,20 @@ $spritesheet-wonder-width: 1004px;
 
 }
 
+  @mixin sprite__track__star--active {
+    @include spritesheet;
+    background-position: -215px 0px;
+    width: 35px;
+    height: 35px;
+  }
+
+    @mixin sprite__track__star--active--hover {
+      @include spritesheet;
+      background-position: -215px -55px;
+      width: 35px;
+      height: 35px;
+    }
+
 @mixin sprite__track__play {
   @include spritesheet;
   background-position: 0px 0px;

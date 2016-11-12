@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {initialPlay, nextTrack, togglePlaying} from 'redux/modules/player';
 import {starTrack, unstarTrack} from 'redux/modules/starred';
-
+import {isTrackStarred} from 'utils/track';
 const classNames = require('classnames');
 const styles = require('./Player.scss');
 
@@ -67,15 +67,7 @@ export default class Player extends Component {
     const {currentTrack} = player;
     if (!this.isTrackSelected()) return false;
     const {starredTracks} = starred;
-    const {
-      data: {
-        track: {
-          track_id: trackId
-        }
-      }
-    } = currentTrack;
-    console.log('am i starred?', (starredTracks[trackId] ? true : false));
-    return starredTracks[trackId] ? true : false;
+    return isTrackStarred(currentTrack, starredTracks);
   }
 
   isTrackSelected() {

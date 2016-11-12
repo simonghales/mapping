@@ -1,34 +1,51 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {setCurrentTrack} from 'redux/modules/player';
+import {setCurrentTrack, togglePlaying} from 'redux/modules/player';
+import {starTrack, unstarTrack} from 'redux/modules/starred';
 import { Track } from 'components';
+import {isTrackStarred} from 'utils/track';
 
 const classNames = require('classnames');
 const styles = require('./TracksList.scss');
 
 @connect(
-  state => ({player: state.player}),
-  dispatch => bindActionCreators({setCurrentTrack}, dispatch))
+  state => ({
+    player: state.player,
+    starred: state.starred,
+  }),
+  dispatch => bindActionCreators({setCurrentTrack, starTrack, togglePlaying, unstarTrack}, dispatch))
 export default class TracksList extends Component {
   constructor(props) {
     super(props);
     this.renderTracks = this.renderTracks.bind(this);
   }
   renderTracks(tracks) {
-    const {player, setCurrentTrack} = this.props; // eslint-disable-line no-shadow
+    const {
+      player,
+      setCurrentTrack, // eslint-disable-line no-shadow
+      starred,
+      starTrack, // eslint-disable-line no-shadow
+      togglePlaying, // eslint-disable-line no-shadow
+      unstarTrack, // eslint-disable-line no-shadow
+    } = this.props; // eslint-disable-line no-shadow
     const {
       playing: playerIsPlaying
     } = player;
     const {currentTrack} = player;
+    const {starredTracks} = starred;
     const trackProps = {
       setCurrentTrack,
+      starTrack,
+      togglePlaying,
+      unstarTrack,
     };
     return (
       tracks.map((trackMap, index) => {
         const track = trackMap;
         const isJumbo = (index === 0);
         const isSelected = (currentTrack) ? (currentTrack && (track.index === currentTrack.index)) : false;
+        const isStarred = isTrackStarred(track, starredTracks);
         const isPlaying = (isSelected && playerIsPlaying);
         const trackClassName = classNames(
           styles['Track'],
@@ -41,6 +58,7 @@ export default class TracksList extends Component {
                  trackData={track}
                  isPlaying={isPlaying}
                  isSelected={isSelected}
+                 isStarred={isStarred}
                  {...trackProps}/>
         );
       })
@@ -60,5 +78,9 @@ export default class TracksList extends Component {
 TracksList.propTypes = {
   player: React.PropTypes.object,
   setCurrentTrack: React.PropTypes.func,
+  starred: React.PropTypes.object,
+  starTrack: React.PropTypes.func,
+  togglePlaying: React.PropTypes.func,
+  unstarTrack: React.PropTypes.func,
 };
 

@@ -15,3 +15,15 @@ export function getTrackPhotoUrl(photoUrl, large = false) {
   if (large) return photoUrl + TRACK_PHOTO_URL_LARGE;
   return photoUrl + TRACK_PHOTO_URL_MEDIUM;
 }
+
+export function isTrackStarred(track, starredTracks) {
+  if (!track || !starredTracks) return false;
+  const {
+    data: {
+      track: {
+        track_id: trackId
+      }
+    }
+  } = track;
+  return starredTracks[trackId] ? true : false;
+}

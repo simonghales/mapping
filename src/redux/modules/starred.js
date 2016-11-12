@@ -1,4 +1,6 @@
 
+import {removeByKey} from 'utils/state';
+
 const SET_STARRED_TRACKS = 'wonder/starred/SET_STARRED_TRACKS';
 const STAR_TRACK = 'wonder/starred/STAR_TRACK';
 const UNSTAR_TRACK = 'wonder/starred/UNSTAR_TRACK';
@@ -48,8 +50,14 @@ function handleStarTrack(state, payload) {
       }
     }
   } = track;
-  state.starredTracks[trackId] = track; // todo - STOP MUTATING
-  return state;
+  const {starredTracks} = state;
+  return {
+    ...state,
+    starredTracks: {
+      ...starredTracks,
+      [trackId]: track
+    }
+  };
 }
 
 function handleUnstarTrack(state, payload) {
@@ -62,8 +70,12 @@ function handleUnstarTrack(state, payload) {
       }
     }
   } = track;
-  delete state.starredTracks[trackId]; // todo - STOP MUTATING
-  return state;
+  let {starredTracks} = state;
+  starredTracks = removeByKey(starredTracks, trackId);
+  return {
+    ...state,
+    starredTracks
+  };
 }
 
 const ACTION_HANDLERS = {
