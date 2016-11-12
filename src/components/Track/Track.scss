@@ -8,13 +8,17 @@
 @import '../../styles/elements/elements.image';
 @import '../../styles/objects/objects.track';
 
+@mixin TrackUiElementVisible {
+  opacity: 1;
+}
+
 @mixin TrackUiVisibleOnlyOnHover {
   @include transition(opacity 250ms ease);
   opacity: 0;
 
   &:hover,
   .Track:hover & {
-    opacity: 1;
+    @include TrackUiElementVisible;
   }
 
 }
@@ -110,6 +114,7 @@ $Track--standardPadding: 15px;
 
           @include TrackStarred {
             @include sprite__track__star--active;
+            @include TrackUiElementVisible;
 
             &:hover {
               @include sprite__track__star--active--hover;

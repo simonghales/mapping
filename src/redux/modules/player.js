@@ -15,6 +15,7 @@ const NEXT_TRACK = 'wonder/player/NEXT_TRACK';
 const TOGGLE_PLAYING = 'wonder/player/TOGGLE_PLAYING';
 
 export function fetchTracks() {
+  console.log('fetching tracks yo...');
   return {
     types: [FETCH_TRACKS, FETCH_TRACKS_SUCCESS, FETCH_TRACKS_FAILURE],
     promise: (client) => client.get('/widget/load/param1/param2') // params not used, just shown as demonstration

@@ -19,12 +19,14 @@ import createHistory from 'react-router/lib/createMemoryHistory';
 import {Provider} from 'react-redux';
 import getRoutes from './routes';
 
-const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort;
+// const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort;
+const targetUrl = config.apiHost;
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
 const proxy = httpProxy.createProxyServer({
   target: targetUrl,
+  changeOrigin: true,
   ws: true
 });
 
