@@ -34,6 +34,8 @@ export default class ApiClient {
           request.send(data);
         }
 
+        request.set('Authorization', 'Token 20655953b650f70746c22120d8bf6db5269610ad');
+
         request.end((err, { body } = {}) => err ? reject(body || err) : resolve(body));
       }));
   }

@@ -3,8 +3,6 @@
 
 import { prepTracks } from 'utils/track';
 
-const EXAMPLE_TRACKS = require('../../data/example/chart.json').chart;
-
 const FETCH_TRACKS = 'wonder/player/FETCH_TRACKS';
 const FETCH_TRACKS_FAILURE = 'wonder/player/FETCH_TRACKS_FAILURE';
 const FETCH_TRACKS_SUCCESS = 'wonder/player/FETCH_TRACKS_SUCCESS';
@@ -18,7 +16,7 @@ export function fetchTracks() {
   console.log('fetching tracks yo...');
   return {
     types: [FETCH_TRACKS, FETCH_TRACKS_SUCCESS, FETCH_TRACKS_FAILURE],
-    promise: (client) => client.get('/widget/load/param1/param2') // params not used, just shown as demonstration
+    promise: (client) => client.get('/api/promochart/?genre=indie') // params not used, just shown as demonstration
   };
 }
 
@@ -66,8 +64,8 @@ function handleFetchTracks(state) {
   };
 }
 
-function handleFetchTracksFailure(state) {
-  console.log('FAILED TO FETCH...');
+function handleFetchTracksFailure(state, action) {
+  console.log('FAILED TO FETCH...', action);
   return {
     ...state,
     isFetchingTracks: false,
@@ -75,12 +73,16 @@ function handleFetchTracksFailure(state) {
   };
 }
 
-function handleFetchTracksSuccess(state) {
-  console.log('SUCCESSFULLY MANAGED TO FETCH...');
+function handleFetchTracksSuccess(state, action) {
+  console.log('SUCCESSFULLY MANAGED TO FETCH...', action);
+  const { result } = action;
+  const { chart } = result;
+  const tracks = prepTracks(chart);
   return {
     ...state,
     isFetchingTracks: false,
     isFetchingTracksFailure: false,
+    queuedTracks: tracks,
   };
 }
 
@@ -132,7 +134,7 @@ function handleSetQueuedTracks(state, payload) {
   const {tracks} = payload;
   return {
     ...state,
-    currentTrack: tracks,
+    queuedTracks: tracks,
   };
 }
 
@@ -145,8 +147,8 @@ function handleTogglePlaying(state) {
 
 const ACTION_HANDLERS = {
   [FETCH_TRACKS]: (state) => handleFetchTracks(state),
-  [FETCH_TRACKS_FAILURE]: (state) => handleFetchTracksFailure(state),
-  [FETCH_TRACKS_SUCCESS]: (state) => handleFetchTracksSuccess(state),
+  [FETCH_TRACKS_FAILURE]: (state, action) => handleFetchTracksFailure(state, action),
+  [FETCH_TRACKS_SUCCESS]: (state, action) => handleFetchTracksSuccess(state, action),
   [INITIAL_PLAY]: (state) => handleInitialStart(state),
   [SET_CURRENT_TRACK]: (state, action) => handleSetCurrentTrack(state, action.payload),
   [SET_QUEUED_TRACKS]: (state, action) => handleSetQueuedTracks(state, action.payload),
@@ -159,7 +161,7 @@ const initialState = {
   isFetchingTracks: false,
   isFetchingTracksFailure: false,
   playing: false,
-  queuedTracks: prepTracks(EXAMPLE_TRACKS), // todo - change back to []
+  queuedTracks: [],
 };
 
 export default function reducer(state = initialState, action = {}) {
