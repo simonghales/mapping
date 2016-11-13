@@ -12,10 +12,12 @@ export MiniInfoBar from './MiniInfoBar/MiniInfoBar';
 export SurveyForm from './SurveyForm/SurveyForm';
 export WidgetForm from './WidgetForm/WidgetForm';
 
+export AppLinks from './AppLinks/AppLinks';
 export Player from './Player/Player';
 export PlayerScrubber from './PlayerScrubber/PlayerScrubber';
 export Sidebar from './Sidebar/Sidebar';
 export SiteFooter from './SiteFooter/SiteFooter';
 export SiteHeader from './SiteHeader/SiteHeader';
+export SiteLink from './SiteLink/SiteLink';
 export Track from './Track/Track';
 export TracksList from './TracksList/TracksList';
